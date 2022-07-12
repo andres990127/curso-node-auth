@@ -5,7 +5,7 @@ services:
     image: postgres:13
     environment:
       - POSTGRES_DB=my_store
-      - POSTGRES_USER=nico
+      - POSTGRES_USER=andres
       - POSTGRES_PASSWORD=admin123
     ports:
       - 5432:5432
@@ -16,7 +16,7 @@ services:
     image: dpage/pgadmin4
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@mail.com
-      - PGADMIN_DEFAULT_PASSWORD=root
+      - PGADMIN_DEFAULT_PASSWORD=admin123
     ports:
       - 5050:80
 
