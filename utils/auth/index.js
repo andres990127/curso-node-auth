@@ -3,8 +3,10 @@
 // Se importa passport
 const passport = require('passport');
 
-// Importamos la estrategia local
+// Importamos las estrategias creadas
 const LocalStrategy = require('./strategies/local.strategy');
+const JwtStrategy = require('./strategies/jwt.strategy');
 
-// Usamos la estrategia
+// Usamos las estrategias importadas
 passport.use(LocalStrategy);
+passport.use(JwtStrategy);

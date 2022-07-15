@@ -20,5 +20,28 @@ function checkApiKey(req, res, next){
   }
 }
 
+// Se crea middleware para verificar que el usuario logeado sea admin
+function checkAdminRole(req, res, next){
+  const user = req.user;
+  if(user.role === 'admin'){
+    next();
+  }else{
+    next(boom.unauthorized());
+  }
+}
+
+// [Clousures --> Función que retorna una función]
+// Se crea middleware para verificar que alguno de los roles que se le ingresen los tenga el usuario
+function checkRoles(...roles) {
+  return (req, res, next) => {
+    const user = req.user;
+    if (roles.includes(user.role)) {
+      next();
+    } else {
+      next(boom.unauthorized());
+    }
+  }
+}
+
 // Se exporta el modulo
-module.exports = { checkApiKey }
+module.exports = { checkApiKey, checkAdminRole, checkRoles}
