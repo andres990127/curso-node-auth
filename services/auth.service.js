@@ -85,7 +85,7 @@ class AuthService {
 
     const link = `http://myfronend.com/recovery?token=${token}`;
 
-    const upd = await service.update(user.id, {recoveryToken: token});
+    await service.update(user.id, {recoveryToken: token});
 
     const mail = {
       from: config.remitentEmail, // sender address
@@ -98,6 +98,28 @@ class AuthService {
 
     return rta;
 
+  }
+
+  // Servicio para cambio de contraseña de un usuario
+  async changePassword(token, newPassword){
+    try{
+      const payload = jwt.verify(token, config.jwtSecret);
+
+      const user = await service.findOne(payload.sub);
+
+      if(user.recoveryToken !== token){
+        throw boom.unauthorized();
+      }
+
+      const hash = await bcrypt.hash(newPassword, 10);
+
+      await service.update(user.id, {recoveryToken: null, password: hash});
+
+      return { message: "password changed"};
+
+    }catch{
+      throw boom.unauthorized();
+    }
   }
 
   // Servicio para envio de correos hacia el correo recibido como parámetro
